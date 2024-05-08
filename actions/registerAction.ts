@@ -8,7 +8,7 @@ export const registerAction = async (
   values: z.infer<typeof RegisterSchema>
 ) => {
   const validatedFields = RegisterSchema.safeParse(values);
-  console.log(validatedFields);
+  console.log('registerAction.ts', validatedFields);
 
   if (!validatedFields.success) {
     return { error: 'Invalidated fields!' };

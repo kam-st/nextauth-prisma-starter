@@ -132,6 +132,25 @@ export function RegisterForm() {
                 </FormItem>
               )}
             />
+            <FormField
+              control={form.control}
+              name='confirmPassword'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Confirm Password</FormLabel>
+                  <FormControl>
+                    <Input
+                      disabled={isPending}
+                      type='password'
+                      placeholder='******'
+                      required
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </div>
           <FormError message={error} />
           <FormSucess message={sucess} />
