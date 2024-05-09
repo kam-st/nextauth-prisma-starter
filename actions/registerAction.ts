@@ -1,6 +1,6 @@
 'use server';
 
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import * as z from 'zod';
 
 import { db } from '@/lib/db';
@@ -12,7 +12,6 @@ export const registerAction = async (
   values: z.infer<typeof RegisterSchema>
 ) => {
   const validatedFields = RegisterSchema.safeParse(values);
-  console.log('registerAction.ts', validatedFields);
 
   if (!validatedFields.success) {
     return { error: 'Invalidated fields!' };
