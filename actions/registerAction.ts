@@ -7,6 +7,8 @@ import { db } from '@/lib/db';
 
 import { RegisterSchema } from '@/lib/validations/auth';
 import { getUserbyEmail } from '@/data/user';
+import { generateVerificationToken } from '@/lib/tokens';
+import { sendVerificationEmail } from '@/lib/mail';
 
 export const registerAction = async (
   values: z.infer<typeof RegisterSchema>
@@ -17,7 +19,7 @@ export const registerAction = async (
     return { error: 'Invalidated fields!' };
   }
 
-  const { email, password, firstName, lastName } = validatedFields.data;
+  const { email, password, name, lastName } = validatedFields.data;
   const hashedPassword = await bcrypt.hash(password, 10);
 
   const existingUser = await getUserbyEmail(email);
@@ -28,14 +30,16 @@ export const registerAction = async (
 
   await db.user.create({
     data: {
-      firstName,
+      name,
       lastName,
       email,
       password: hashedPassword,
     },
   });
 
-  //TODO: Send verification token email.
+  const verificationToken = await generateVerificationToken(email);
 
-  return { success: 'User account created!' };
+  await sendVerificationEmail(verificationToken.email, verificationToken.token);
+
+  return { success: 'Confirmation email has been sent!' };
 };
