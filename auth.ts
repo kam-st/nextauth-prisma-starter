@@ -4,8 +4,9 @@ import { PrismaAdapter } from '@auth/prisma-adapter';
 import { db } from './lib/db';
 import Credentials from 'next-auth/providers/credentials';
 import { LoginSchema } from './lib/validations/auth';
-import { getUserbyEmail } from './data/user';
+import { getUserbyEmail, getUserbyId } from './data/user';
 import bcrypt from 'bcryptjs';
+import { UserRole } from '@prisma/client';
 
 export const {
   handlers,
@@ -36,4 +37,24 @@ export const {
       },
     }),
   ],
+  callbacks: {
+    async session({ token, session }) {
+      if (token.sub && session.user) {
+        session.user.id = token.sub;
+      }
+
+      if (token.role && session.user) {
+        session.user.role = token.role as UserRole;
+      }
+      return session;
+    },
+    async jwt({ token }) {
+      if (!token.sub) return token;
+      const existingUser = await getUserbyId(token.sub);
+      if (!existingUser) return token;
+
+      token.role = existingUser.role;
+      return token;
+    },
+  },
 });

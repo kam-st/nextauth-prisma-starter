@@ -11,7 +11,7 @@ const Settings = async () => {
         action={async () => {
           'use server';
 
-          await signOut();
+          await signOut({ redirectTo: '/login' });
         }}
       >
         <Button type='submit'>Sign Out</Button>
