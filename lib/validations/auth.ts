@@ -7,7 +7,7 @@ export const LoginSchema = z.object({
 
 export const RegisterSchema = z
   .object({
-    firstName: z.string().min(1, { message: 'Name is required.' }).max(30),
+    name: z.string().min(1, { message: 'Name is required.' }).max(30),
     lastName: z.string().min(1, { message: 'Name is required.' }).max(30),
     email: z.string().email({ message: 'Email is required.' }).max(50),
     password: z

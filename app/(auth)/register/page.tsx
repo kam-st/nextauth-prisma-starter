@@ -12,6 +12,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { DividerWithText } from '@/components/misc/dividerWithText';
+import { SocialAuth } from '@/components/auth/socialAuth';
 
 const LoginPage = () => {
   return (
@@ -37,7 +38,7 @@ const LoginPage = () => {
         </CardHeader>
         <CardContent>
           <RegisterForm />
-          <div className='grid gap-4'>
+          {/* <div className='grid gap-4'>
             <DividerWithText text='or' className='mt-4' />
             <Button variant='outline' className='w-full'>
               Sign up with Google
@@ -45,7 +46,8 @@ const LoginPage = () => {
             <Button variant='outline' className='w-full'>
               Sign up with Microsoft
             </Button>
-          </div>
+          </div> */}
+          <SocialAuth type='Signup' />
           <div className='mt-4 text-center text-sm'>
             Already have an account?{' '}
             <Link href='/login' className='underline'>

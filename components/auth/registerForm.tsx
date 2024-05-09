@@ -57,14 +57,14 @@ export function RegisterForm() {
             <div className='grid grid-cols-2 gap-4'>
               <FormField
                 control={form.control}
-                name='firstName'
+                name='name'
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>First name</FormLabel>
                     <FormControl>
                       <Input
                         disabled={isPending}
-                        type='firstName'
+                        type='name'
                         placeholder='John'
                         required
                         {...field}

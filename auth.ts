@@ -1,5 +1,6 @@
 import NextAuth from 'next-auth';
-import google from 'next-auth/providers/google';
+
+import Google from 'next-auth/providers/google';
 import { PrismaAdapter } from '@auth/prisma-adapter';
 import { db } from './lib/db';
 import Credentials from 'next-auth/providers/credentials';
@@ -15,10 +16,16 @@ export const {
   auth,
   unstable_update: update,
 } = NextAuth({
+  pages: {
+    signIn: '/login',
+    error: '/error',
+  },
   adapter: PrismaAdapter(db),
   session: { strategy: 'jwt' },
   providers: [
+    Google({ allowDangerousEmailAccountLinking: true }),
     Credentials({
+      credentials: { password: { label: 'Password', type: 'password' } },
       async authorize(credentials) {
         const validatedFields = LoginSchema.safeParse(credentials);
 
@@ -55,6 +62,14 @@ export const {
 
       token.role = existingUser.role;
       return token;
+    },
+  },
+  events: {
+    async linkAccount({ user }) {
+      await db.user.update({
+        where: { id: user.id },
+        data: { emailVerified: new Date() },
+      });
     },
   },
 });
