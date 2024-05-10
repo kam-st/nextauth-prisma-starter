@@ -92,6 +92,14 @@ export function LoginForm() {
                       {...field}
                     />
                   </FormControl>
+                  <Button
+                    size='sm'
+                    variant='link'
+                    asChild
+                    className=' w-full p-0 font-normal text-xs justify-end'
+                  >
+                    <Link href='/reset-password'>Forgot password?</Link>
+                  </Button>
                   <FormMessage />
                 </FormItem>
               )}

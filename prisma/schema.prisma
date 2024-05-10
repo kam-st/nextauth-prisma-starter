@@ -68,3 +68,14 @@ model VerificationToken {
 
   @@unique([email, token])
 }
+
+// TODO: update models to not have necessarily
+
+model PasswordResetToken {
+  id      String   @id @default(cuid())
+  email   String
+  token   String
+  expires DateTime
+
+  @@unique([email, token])
+}

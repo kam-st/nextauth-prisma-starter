@@ -5,6 +5,10 @@ export const LoginSchema = z.object({
   password: z.string().min(1, { message: 'Password is required.' }).max(30),
 });
 
+export const ResetSchema = z.object({
+  email: z.string().email({ message: 'Email is required.' }).max(50),
+});
+
 export const RegisterSchema = z
   .object({
     name: z.string().min(1, { message: 'Name is required.' }).max(30),
