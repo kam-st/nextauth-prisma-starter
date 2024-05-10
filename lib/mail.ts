@@ -2,6 +2,17 @@ import { Resend } from 'resend';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
+export const sendTwoFactorTokenEmail = async (email: string, token: string) => {
+  // TODO: Query params of both token and email should be used for verification, so there is no need for uuid token and can use smaller token such as nummber.
+
+  await resend.emails.send({
+    from: 'onboarding@resend.dev',
+    to: email,
+    subject: '2 Factor Autentication Code',
+    html: `<p>Your 2FA code: ${token}</p>`,
+  });
+};
+
 export const sendVerificationEmail = async (email: string, token: string) => {
   // TODO: Query params of both token and email should be used for verification, so there is no need for uuid token and can use smaller token such as nummber.
   const confirmLink = `http://localhost:3000/new-verification?token=${token}`;
