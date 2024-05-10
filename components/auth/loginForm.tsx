@@ -17,8 +17,8 @@ import {
   FormMessage,
 } from '../ui/form';
 import { LoginSchema } from '@/lib/validations/auth';
-import { FormError } from '../form-error';
-import { FormSucess } from '../form-sucess';
+import { FormError } from './form-error';
+import { FormSucess } from './form-sucess';
 import { loginAction } from '@/actions/login';
 import { useState, useTransition } from 'react';
 import { useSearchParams } from 'next/navigation';

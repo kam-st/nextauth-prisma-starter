@@ -16,8 +16,8 @@ import {
   FormMessage,
 } from '../ui/form';
 import { ResetSchema } from '@/lib/validations/auth';
-import { FormError } from '../form-error';
-import { FormSucess } from '../form-sucess';
+import { FormError } from './form-error';
+import { FormSucess } from './form-sucess';
 
 import { useState, useTransition } from 'react';
 import { resetPasswordAction } from '@/actions/reset-password-action';

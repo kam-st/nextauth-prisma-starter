@@ -4,8 +4,8 @@ import { newVerification } from '@/actions/newVerificationAction';
 import { useSearchParams } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 import { BeatLoader } from 'react-spinners';
-import { FormSucess } from '../form-sucess';
-import { FormError } from '../form-error';
+import { FormSucess } from './form-sucess';
+import { FormError } from './form-error';
 import { Button } from '../ui/button';
 import Link from 'next/link';
 

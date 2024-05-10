@@ -21,8 +21,8 @@ import {
   FormLabel,
   FormMessage,
 } from '../ui/form';
-import { FormError } from '../form-error';
-import { FormSucess } from '../form-sucess';
+import { FormError } from './form-error';
+import { FormSucess } from './form-sucess';
 import { registerAction } from '@/actions/registerAction';
 
 export function RegisterForm() {
