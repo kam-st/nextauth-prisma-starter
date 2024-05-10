@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { buttonVariants } from '@/components/ui/button';
 import { Icons } from '@/components/misc/icons';
-import { NewVerificationForm } from '@/components/auth/new-verification-form';
+import NewPaswordForm from '@/components/auth/new-password-form';
 import {
   Card,
   CardContent,
@@ -11,7 +11,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 
-const NewVerificationPage = () => {
+const NewPasswordPage = () => {
   return (
     <div className='container flex h-screen w-screen flex-col items-center justify-center'>
       <Link
@@ -29,16 +29,16 @@ const NewVerificationPage = () => {
       <Card className='mx-auto max-w-sm'>
         <CardHeader>
           <CardTitle className='flex justify-center text-2xl'>
-            Verify account
+            Reset password
           </CardTitle>
-          <CardDescription>Confirm verification of your email.</CardDescription>
+          <CardDescription>Enter your new password below.</CardDescription>
         </CardHeader>
         <CardContent className='grid gap-4'>
-          <NewVerificationForm />
+          <NewPaswordForm />
         </CardContent>
       </Card>
     </div>
   );
 };
 
-export default NewVerificationPage;
+export default NewPasswordPage;

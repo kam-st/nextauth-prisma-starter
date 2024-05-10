@@ -4,7 +4,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 export const sendVerificationEmail = async (email: string, token: string) => {
   // TODO: Query params of both token and email should be used for verification, so there is no need for uuid token and can use smaller token such as nummber.
-  const confirmLink = `http://localhost:3000/new-verification?token=${token}&email=${email}`;
+  const confirmLink = `http://localhost:3000/new-verification?token=${token}`;
 
   await resend.emails.send({
     from: 'onboarding@resend.dev',
@@ -16,7 +16,7 @@ export const sendVerificationEmail = async (email: string, token: string) => {
 
 export const sendPasswordResetEmail = async (email: string, token: string) => {
   // TODO: Query params of both token and email should be used for verification, so there is no need for uuid token and can use smaller token such as nummber.
-  const confirmLink = `http://localhost:3000/new-password?token=${token}`;
+  const confirmLink = `http://localhost:3000/new-password?token=${token}&email=${email}`;
 
   await resend.emails.send({
     from: 'onboarding@resend.dev',

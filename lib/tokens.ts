@@ -13,7 +13,7 @@ export const generatePasswordResetToken = async (email: string) => {
   if (exisitingToken) {
     await db.passwordResetToken.deleteMany({
       where: {
-        id: exisitingToken.id,
+        email: exisitingToken.email,
       },
     });
   }
@@ -38,7 +38,7 @@ export const generateVerificationToken = async (email: string) => {
   if (exisitingToken) {
     await db.verificationToken.deleteMany({
       where: {
-        id: exisitingToken.id,
+        email: exisitingToken.email,
       },
     });
   }
