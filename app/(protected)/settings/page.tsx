@@ -29,14 +29,16 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { UserRole } from '@prisma/client';
 import { useSession } from 'next-auth/react';
 import { useSearchParams } from 'next/navigation';
-import { useState, useTransition } from 'react';
+import { useEffect, useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 const Settings = () => {
   const user = useCurrentUser();
+  console.log('user1', user);
 
   const { update } = useSession();
+
   const [error, setError] = useState<string | undefined>('');
   const [success, setSucess] = useState<string | undefined>('');
   const [isPending, startTransiton] = useTransition();

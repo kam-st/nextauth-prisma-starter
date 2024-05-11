@@ -16,7 +16,10 @@ import { getTwoFactorTokenByEmail } from '@/data/two-factor-token';
 import { db } from '@/lib/db';
 import { getTwoFactorConfirmationByUserId } from '@/data/two-factor-confirmation';
 
-export const loginAction = async (values: z.infer<typeof LoginSchema>) => {
+export const loginAction = async (
+  values: z.infer<typeof LoginSchema>,
+  callbackUrl: string | null
+) => {
   const validatedFields = LoginSchema.safeParse(values);
 
   if (!validatedFields.success) {
@@ -96,10 +99,11 @@ export const loginAction = async (values: z.infer<typeof LoginSchema>) => {
   }
 
   try {
+    console.log('CBURL', callbackUrl);
     await signIn('credentials', {
       email,
       password,
-      redirectTo: DEFAULT_LOGIN_REDIRECT,
+      redirectTo: callbackUrl || DEFAULT_LOGIN_REDIRECT,
     });
 
     return { success: 'Sucessfully Logged In' };

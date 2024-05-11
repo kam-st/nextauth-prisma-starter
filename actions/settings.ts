@@ -25,6 +25,7 @@ export const settings = async (values: z.infer<typeof SettingsSchema>) => {
   {
     /* TODO: Update this logic to work for both Oauth and credentials. If do not have password then, disable email change.  */
   }
+  console.log('user isOAUTH', user.isOAuth);
   if (user.isOAuth) {
     values.email = undefined;
     values.password = undefined;

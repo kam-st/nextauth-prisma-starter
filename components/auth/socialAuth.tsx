@@ -4,15 +4,19 @@ import { signIn } from 'next-auth/react';
 import { DividerWithText } from '../misc/dividerWithText';
 import { Button } from '../ui/button';
 import { DEFAULT_LOGIN_REDIRECT } from '@/routes';
+import { useSearchParams } from 'next/navigation';
 
 type SocialAuthProps = {
   type?: 'Login' | 'Signup';
 };
 
 export const SocialAuth = ({ type }: SocialAuthProps) => {
+  const searchParams = useSearchParams();
+  const callbackURL = searchParams.get('callbackUrl');
+
   const onClick = (provider: 'google' | 'X') => {
     signIn(provider, {
-      callbackUrl: DEFAULT_LOGIN_REDIRECT,
+      callbackUrl: callbackURL || DEFAULT_LOGIN_REDIRECT,
     });
   };
 
