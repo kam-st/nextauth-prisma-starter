@@ -35,7 +35,6 @@ import { z } from 'zod';
 
 const Settings = () => {
   const user = useCurrentUser();
-  console.log('user1', user);
 
   const { update } = useSession();
 
@@ -72,170 +71,181 @@ const Settings = () => {
     });
   };
   return (
-    <Card className='w-[600px]'>
-      <CardHeader>
-        <p className='text-2xl font-semibold text-center'>Settings</p>
-      </CardHeader>
-      <CardContent>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
-            <div className='space-y-4'>
-              <FormField
-                control={form.control}
-                name='name'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Name</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        placeholder='John Doe'
-                        disabled={isPending}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+    <>
+      {user && (
+        <Card className='w-[600px]'>
+          <CardHeader>
+            <p className='text-2xl font-semibold text-center'>Settings</p>
+          </CardHeader>
+          <CardContent>
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className='space-y-6'
+              >
+                <div className='space-y-4'>
+                  <FormField
+                    control={form.control}
+                    name='name'
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Name</FormLabel>
+                        <FormControl>
+                          <Input
+                            {...field}
+                            placeholder='John Doe'
+                            disabled={isPending}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-              {/* TODO: Update this logic to work for both Oauth and credentials. If do not have password then, disable email change.  */}
-              {user?.isOAuth === false && (
-                <>
-                  <FormField
-                    control={form.control}
-                    name='email'
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Email</FormLabel>
-                        <FormControl>
-                          <Input
-                            type='email'
-                            {...field}
-                            placeholder='john.doe@example.com'
-                            disabled={isPending}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name='password'
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Password</FormLabel>
-                        <FormControl>
-                          <Input
-                            type='password'
-                            {...field}
-                            placeholder='********'
-                            disabled={isPending}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name='newPassword'
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>New password</FormLabel>
-                        <FormControl>
-                          <Input
-                            type='password'
-                            {...field}
-                            placeholder='********'
-                            disabled={isPending}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name='confirmNewPassword'
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Confirm new password</FormLabel>
-                        <FormControl>
-                          <Input
-                            type='password'
-                            {...field}
-                            placeholder='********'
-                            disabled={isPending}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </>
-              )}
-              <FormField
-                control={form.control}
-                name='role'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Role</FormLabel>
-                    <FormControl>
-                      <Select
-                        disabled={isPending}
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder='select a role' />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          <SelectItem value={UserRole.ADMIN}>Admin</SelectItem>
-                          <SelectItem value={UserRole.USER}>User</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              {user?.isOAuth === false && (
-                <FormField
-                  control={form.control}
-                  name='isTwoFactorEnabled'
-                  render={({ field }) => (
-                    <FormItem className='flex flex-row items-center justify-between rounded-lg border p-3'>
-                      <div className='space-y-0.5'>
-                        <FormLabel>Two Factor Authentication</FormLabel>
-                        <FormDescription>
-                          Enable two factor autentication for your account.
-                        </FormDescription>
-                      </div>
-                      <FormControl>
-                        <Switch
-                          disabled={isPending}
-                          checked={field.value}
-                          onCheckedChange={field.onChange}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
+                  {/* TODO: Update this logic to work for both Oauth and credentials. If do not have password then, disable email change.  */}
+                  {user?.isOAuth === false && (
+                    <>
+                      <FormField
+                        control={form.control}
+                        name='email'
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Email</FormLabel>
+                            <FormControl>
+                              <Input
+                                type='email'
+                                {...field}
+                                placeholder='john.doe@example.com'
+                                disabled={isPending}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name='password'
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Password</FormLabel>
+                            <FormControl>
+                              <Input
+                                type='password'
+                                {...field}
+                                placeholder='********'
+                                disabled={isPending}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name='newPassword'
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>New password</FormLabel>
+                            <FormControl>
+                              <Input
+                                type='password'
+                                {...field}
+                                placeholder='********'
+                                disabled={isPending}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name='confirmNewPassword'
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Confirm new password</FormLabel>
+                            <FormControl>
+                              <Input
+                                type='password'
+                                {...field}
+                                placeholder='********'
+                                disabled={isPending}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </>
                   )}
-                />
-              )}
-            </div>
-            <FormError message={error} />
-            <FormSucess message={success} />
-            <Button type='submit' disabled={isPending}>
-              Save
-            </Button>
-          </form>
-        </Form>
-      </CardContent>
-    </Card>
+                  <FormField
+                    control={form.control}
+                    name='role'
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Role</FormLabel>
+                        <FormControl>
+                          <Select
+                            disabled={isPending}
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                          >
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder='select a role' />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              <SelectItem value={UserRole.ADMIN}>
+                                Admin
+                              </SelectItem>
+                              <SelectItem value={UserRole.USER}>
+                                User
+                              </SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  {user?.isOAuth === false && (
+                    <FormField
+                      control={form.control}
+                      name='isTwoFactorEnabled'
+                      render={({ field }) => (
+                        <FormItem className='flex flex-row items-center justify-between rounded-lg border p-3'>
+                          <div className='space-y-0.5'>
+                            <FormLabel>Two Factor Authentication</FormLabel>
+                            <FormDescription>
+                              Enable two factor autentication for your account.
+                            </FormDescription>
+                          </div>
+                          <FormControl>
+                            <Switch
+                              disabled={isPending}
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  )}
+                </div>
+                <FormError message={error} />
+                <FormSucess message={success} />
+                <Button type='submit' disabled={isPending}>
+                  Save
+                </Button>
+              </form>
+            </Form>
+          </CardContent>
+        </Card>
+      )}
+    </>
   );
 };
 
