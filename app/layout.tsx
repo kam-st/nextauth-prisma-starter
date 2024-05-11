@@ -4,6 +4,7 @@ import './globals.css';
 import { cn } from '@/lib/utils';
 import { auth } from '@/auth';
 import { SessionProvider } from 'next-auth/react';
+import { Toaster } from 'sonner';
 
 // const inter = Inter({ subsets: ["latin"] });
 
@@ -31,7 +32,10 @@ export default async function RootLayout({
           fontSans.variable
         )}
       >
-        <SessionProvider session={session}>{children}</SessionProvider>
+        <SessionProvider session={session}>
+          {children}
+          <Toaster richColors />
+        </SessionProvider>
       </body>
     </html>
   );
