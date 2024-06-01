@@ -1,4 +1,4 @@
-import { RegisterForm } from '@/components/auth/registerForm';
+import { RegisterForm } from '@/components/auth/register-form';
 import { Icons } from '@/components/misc/icons';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';

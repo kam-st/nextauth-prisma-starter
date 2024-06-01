@@ -99,7 +99,6 @@ export const loginAction = async (
   }
 
   try {
-    console.log('CBURL', callbackUrl);
     await signIn('credentials', {
       email,
       password,
