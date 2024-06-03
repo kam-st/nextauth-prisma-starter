@@ -1,4 +1,4 @@
-import { ExtendedUser } from '@/next-auth';
+import { ExtendedUser } from '@/types/next-auth';
 import { Card, CardContent, CardHeader } from './ui/card';
 import { Badge } from './ui/badge';
 

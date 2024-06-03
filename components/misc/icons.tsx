@@ -24,13 +24,14 @@ import {
   User,
   X,
   LogOut,
+  CircleArrowOutUpRight,
   type Icon as LucideIcon,
 } from 'lucide-react';
 
 export type Icon = typeof LucideIcon;
 
 export const Icons = {
-  logo: Command,
+  logo: CircleArrowOutUpRight,
   close: X,
   spinner: Loader2,
   chevronLeft: ChevronLeft,
