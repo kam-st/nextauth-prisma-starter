@@ -15,6 +15,11 @@ import { sendTwoFactorTokenEmail, sendVerificationEmail } from '@/lib/mail';
 import { getTwoFactorTokenByEmail } from '@/data/two-factor-token';
 import { db } from '@/lib/db';
 import { getTwoFactorConfirmationByUserId } from '@/data/two-factor-confirmation';
+import {
+  TwoFactorConfirmationTable,
+  TwoFactorTokenTable,
+} from '@/drizzle/schema';
+import { eq } from 'drizzle-orm';
 
 export const loginAction = async (
   values: z.infer<typeof LoginSchema>,
@@ -70,25 +75,36 @@ export const loginAction = async (
         return { error: 'Code expired!' };
       }
 
-      await db.twoFactorToken.delete({
-        where: { id: twoFactorToken.id },
-      });
+      await db
+        .delete(TwoFactorTokenTable)
+        .where(eq(TwoFactorTokenTable.id, twoFactorToken.id));
+
+      // await db.twoFactorToken.delete({
+      //   where: { id: twoFactorToken.id },
+      // });
 
       const existingConfirmation = await getTwoFactorConfirmationByUserId(
         existingUser.id
       );
 
       if (existingConfirmation) {
-        await db.twoFactorConfirmation.delete({
-          where: { id: existingConfirmation.id },
-        });
+        await db
+          .delete(TwoFactorConfirmationTable)
+          .where(eq(TwoFactorConfirmationTable.id, existingConfirmation.id));
+        // await db.twoFactorConfirmation.delete({
+        //   where: { id: existingConfirmation.id },
+        // });
       }
 
-      await db.twoFactorConfirmation.create({
-        data: {
-          userId: existingUser.id,
-        },
-      });
+      await db
+        .insert(TwoFactorConfirmationTable)
+        .values({ userId: existingUser.id });
+
+      // await db.twoFactorConfirmation.create({
+      //   data: {
+      //     userId: existingUser.id,
+      //   },
+      // });
     } else {
       const twoFactorToken = await generateTwoFactorToken(existingUser.email);
 

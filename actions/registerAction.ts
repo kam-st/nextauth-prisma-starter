@@ -9,6 +9,7 @@ import { RegisterSchema } from '@/lib/validations/auth';
 import { getUserbyEmail } from '@/data/user';
 import { generateVerificationToken } from '@/lib/tokens';
 import { sendVerificationEmail } from '@/lib/mail';
+import { UserTable } from '@/drizzle/schema';
 
 export const registerAction = async (
   values: z.infer<typeof RegisterSchema>
@@ -28,14 +29,21 @@ export const registerAction = async (
     return { error: 'Email already in use!' };
   }
 
-  await db.user.create({
-    data: {
-      name,
-      lastName,
-      email,
-      password: hashedPassword,
-    },
+  await db.insert(UserTable).values({
+    name,
+    lastName,
+    email,
+    password: hashedPassword,
   });
+
+  // await db.user.create({
+  //   data: {
+  //     name,
+  //     lastName,
+  //     email,
+  //     password: hashedPassword,
+  //   },
+  // });
 
   const verificationToken = await generateVerificationToken(email);
 

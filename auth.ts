@@ -1,5 +1,5 @@
 import NextAuth from 'next-auth';
-
+import { DrizzleAdapter } from '@auth/drizzle-adapter';
 import Google from 'next-auth/providers/google';
 import { PrismaAdapter } from '@auth/prisma-adapter';
 import { db } from './lib/db';
@@ -7,9 +7,16 @@ import Credentials from 'next-auth/providers/credentials';
 import { LoginSchema } from './lib/validations/auth';
 import { getUserbyEmail, getUserById } from './data/user';
 import bcrypt from 'bcryptjs';
-import { UserRole } from '@prisma/client';
+import { UserRole } from '@/drizzle/schema';
 import { getTwoFactorConfirmationByUserId } from './data/two-factor-confirmation';
 import { getAccountByUserId } from './data/account';
+import {
+  AccountTable,
+  SessionTable,
+  TwoFactorConfirmationTable,
+  UserTable,
+} from './drizzle/schema';
+import { eq } from 'drizzle-orm';
 
 export const {
   handlers,
@@ -22,7 +29,11 @@ export const {
     signIn: '/login',
     error: '/error',
   },
-  adapter: PrismaAdapter(db),
+  adapter: DrizzleAdapter(db, {
+    usersTable: UserTable,
+    accountsTable: AccountTable,
+    sessionsTable: SessionTable,
+  }),
   session: { strategy: 'jwt' },
   providers: [
     Google({ allowDangerousEmailAccountLinking: true }),
@@ -65,9 +76,15 @@ export const {
         if (!twoFactorConfirmation) return false;
 
         // Delete two factor confirmation for next sign in
-        await db.twoFactorConfirmation.delete({
-          where: { id: twoFactorConfirmation.id },
-        });
+
+        await db
+          .delete(TwoFactorConfirmationTable)
+          .where(eq(TwoFactorConfirmationTable.id, twoFactorConfirmation.id));
+
+        // Prisma query
+        // await db.twoFactorConfirmation.delete({
+        //   where: { id: twoFactorConfirmation.id },
+        // });
       }
 
       return true;
@@ -78,7 +95,7 @@ export const {
       }
 
       if (token.role && session.user) {
-        session.user.role = token.role as UserRole;
+        session.user.role = token.role as typeof UserRole.enumValues;
       }
 
       if (session.user) {
@@ -108,10 +125,15 @@ export const {
   },
   events: {
     async linkAccount({ user }) {
-      await db.user.update({
-        where: { id: user.id },
-        data: { emailVerified: new Date() },
-      });
+      await db
+        .update(UserTable)
+        .set({ emailVerified: new Date() })
+        .where(eq(UserTable.id as any, user.id));
+
+      // await db.user.update({
+      //   where: { id: user.id },
+      //   data: { emailVerified: new Date() },
+      // });
     },
   },
 });

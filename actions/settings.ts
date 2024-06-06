@@ -10,6 +10,8 @@ import { generateVerificationToken } from '@/lib/tokens';
 import { SettingsSchema } from '@/lib/validations/settings';
 import { z } from 'zod';
 import { error } from 'console';
+import { UserTable } from '@/drizzle/schema';
+import { eq } from 'drizzle-orm';
 
 export const settings = async (values: z.infer<typeof SettingsSchema>) => {
   const user = await currentUser();
@@ -68,12 +70,17 @@ export const settings = async (values: z.infer<typeof SettingsSchema>) => {
     values.confirmNewPassword = undefined;
   }
 
-  await db.user.update({
-    where: { id: dbUser.id },
-    data: {
-      ...values,
-    },
-  });
+  await db
+    .update(UserTable)
+    .set({ ...values })
+    .where(eq(UserTable.id, dbUser.id));
+
+  // await db.user.update({
+  //   where: { id: dbUser.id },
+  //   data: {
+  //     ...values,
+  //   },
+  // });
 
   return { success: 'Settings Updated!' };
 };

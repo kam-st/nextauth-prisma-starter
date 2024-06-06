@@ -9,6 +9,8 @@ import { sendPasswordResetEmail } from '@/lib/mail';
 import { getPasswordResetTokenByTokenEmail } from '@/data/password-reset-token';
 import bcrypt from 'bcryptjs';
 import { db } from '@/lib/db';
+import { PasswordResetTokenTable, UserTable } from '@/drizzle/schema';
+import { eq } from 'drizzle-orm';
 
 export const newPasswordAction = async (
   values: z.infer<typeof NewPasswordSchema>,
@@ -47,14 +49,23 @@ export const newPasswordAction = async (
 
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  await db.user.update({
-    where: { id: existingUser.id },
-    data: { password: hashedPassword },
-  });
+  await db
+    .update(UserTable)
+    .set({ password: hashedPassword })
+    .where(eq(UserTable.id, existingToken.id));
 
-  await db.passwordResetToken.delete({
-    where: { id: existingToken.id },
-  });
+  // await db.user.update({
+  //   where: { id: existingUser.id },
+  //   data: { password: hashedPassword },
+  // });
+
+  await db
+    .delete(PasswordResetTokenTable)
+    .where(eq(PasswordResetTokenTable.id, existingToken.id));
+
+  // await db.passwordResetToken.delete({
+  //   where: { id: existingToken.id },
+  // });
 
   return { success: 'Password updated!' };
 };

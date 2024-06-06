@@ -2,7 +2,9 @@
 
 import { getUserbyEmail } from '@/data/user';
 import { getVerificationTokenByToken } from '@/data/verification-token';
+import { UserTable, VerificationTokenTable } from '@/drizzle/schema';
 import { db } from '@/lib/db';
+import { eq } from 'drizzle-orm';
 
 export const newVerification = async (token: string) => {
   const exisitingToken = await getVerificationTokenByToken(token);
@@ -23,17 +25,26 @@ export const newVerification = async (token: string) => {
     return { error: 'Email does not exist!' };
   }
 
-  await db.user.update({
-    where: { id: existingUser.id },
-    data: {
-      emailVerified: new Date(),
-      email: exisitingToken.email,
-    },
-  });
+  await db
+    .update(UserTable)
+    .set({ emailVerified: new Date(), email: exisitingToken.email })
+    .where(eq(UserTable.id, existingUser.id));
 
-  await db.verificationToken.delete({
-    where: { id: exisitingToken.id },
-  });
+  // await db.user.update({
+  //   where: { id: existingUser.id },
+  //   data: {
+  //     emailVerified: new Date(),
+  //     email: exisitingToken.email,
+  //   },
+  // });
+
+  await db
+    .delete(VerificationTokenTable)
+    .where(eq(VerificationTokenTable.id, exisitingToken.id));
+
+  // await db.verificationToken.delete({
+  //   where: { id: exisitingToken.id },
+  // });
 
   return { success: 'Email verified!' };
 };
