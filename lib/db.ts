@@ -17,23 +17,26 @@
 
 // export const db = prisma;
 
-import 'dotenv/config';
-import { drizzle } from 'drizzle-orm/node-postgres';
-import * as schema from '@/drizzle/schema';
-
-import { Pool } from 'pg';
-
-export const client = new Pool({
-  connectionString: process.env.DATABASE_DRIZZLE_URL! as string,
-});
-
-export const db = drizzle(client, { schema, logger: true });
-
 // import 'dotenv/config';
-// import { drizzle } from 'drizzle-orm/postgres-js';
+// import { drizzle } from 'drizzle-orm/node-postgres';
 // import * as schema from '@/drizzle/schema';
 
-// import postgres from 'postgres';
+// import { Client } from 'pg';
 
-// const client = postgres(process.env.DATABASE_DRIZZLE_URL! as string);
+// export const client = new Client({
+//   connectionString: process.env.DATABASE_DRIZZLE_URL as string,
+// });
+
 // export const db = drizzle(client, { schema, logger: true });
+
+import 'dotenv/config';
+import { drizzle } from 'drizzle-orm/postgres-js';
+import * as schema from '@/drizzle/schema';
+
+import postgres from 'postgres';
+
+
+const client = postgres(process.env.DATABASE_DRIZZLE_URL as string);
+export const db = drizzle(client, { schema, logger: true });
+
+
