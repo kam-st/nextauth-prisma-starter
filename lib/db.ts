@@ -29,7 +29,7 @@
 
 // export const db = drizzle(client, { schema, logger: true });
 
-import 'dotenv/config';
+// import 'dotenv/config';
 import { drizzle } from 'drizzle-orm/postgres-js';
 import * as schema from '@/drizzle/schema';
 
@@ -40,3 +40,9 @@ const client = postgres(process.env.DATABASE_DRIZZLE_URL as string);
 export const db = drizzle(client, { schema, logger: true });
 
 
+// import { drizzle } from "drizzle-orm/neon-http";
+// import { neon } from "@neondatabase/serverless";
+
+
+// const sql = neon(process.env.DATABASE_URL!);
+// export const db = drizzle(sql);

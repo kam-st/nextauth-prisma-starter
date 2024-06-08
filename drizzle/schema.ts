@@ -24,7 +24,7 @@ export const TwoFactorTokenTable = pgTable(
     id: uuid('id').primaryKey().defaultRandom().notNull(),
     email: text('email').notNull(),
     token: text('token').notNull(),
-    expires: timestamp('expires', { precision: 3, mode: 'string' }).notNull(),
+    expires: timestamp('expires', { precision: 3, mode: 'date' }).notNull(),
   },
   (table) => {
     return {
@@ -43,7 +43,7 @@ export const VerificationTokenTable = pgTable(
     id: uuid('id').primaryKey().defaultRandom().notNull(),
     email: text('email').notNull(),
     token: text('token').notNull(),
-    expires: timestamp('expires', { precision: 3, mode: 'string' }).notNull(),
+    expires: timestamp('expires', { precision: 3, mode: 'date' }).notNull(),
   },
   (table) => {
     return {
@@ -66,7 +66,7 @@ export const PasswordResetTokenTable = pgTable(
     id: uuid('id').primaryKey().defaultRandom().notNull(),
     email: text('email').notNull(),
     token: text('token').notNull(),
-    expires: timestamp('expires', { precision: 3, mode: 'string' }).notNull(),
+    expires: timestamp('expires', { precision: 3, mode: 'date' }).notNull(),
   },
   (table) => {
     return {
