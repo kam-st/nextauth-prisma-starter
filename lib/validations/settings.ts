@@ -1,11 +1,12 @@
-import { UserRole } from '@prisma/client';
-import { z } from 'zod';
+// import { UserRole } from '@prisma/client';
+import { UserRole } from "@/drizzle/schema";
+import { z } from "zod";
 
 export const SettingsSchema = z
   .object({
     name: z.optional(z.string()),
     isTwoFactorEnabled: z.optional(z.boolean()),
-    role: z.enum([UserRole.ADMIN, UserRole.USER]),
+    role: z.enum(UserRole.enumValues),
     email: z.optional(z.string().email()),
     password: z.optional(z.string().min(8)),
     newPassword: z.optional(z.string().min(8)),
@@ -20,8 +21,8 @@ export const SettingsSchema = z
       return true;
     },
     {
-      message: 'New password is required!',
-      path: ['newPassword'],
+      message: "New password is required!",
+      path: ["newPassword"],
     }
   )
   .refine(
@@ -31,9 +32,9 @@ export const SettingsSchema = z
       }
       return true;
     },
-    { message: 'Current Password is required', path: ['password'] }
+    { message: "Current Password is required", path: ["password"] }
   )
   .refine((data) => data.newPassword === data.confirmNewPassword, {
-    path: ['confirmNewPassword'],
-    message: 'New password do not match',
+    path: ["confirmNewPassword"],
+    message: "New password do not match",
   });
