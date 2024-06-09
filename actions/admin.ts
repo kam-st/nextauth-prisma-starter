@@ -2,7 +2,7 @@
 
 import { currentRole } from "@/lib/auth";
 import { UserRole } from "@/drizzle/schema";
-// import { UserRole } from '@prisma/client';
+
 import { error } from "console";
 
 export const admin = async () => {

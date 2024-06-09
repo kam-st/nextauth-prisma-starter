@@ -23,10 +23,11 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
+import { UserRole } from '@/drizzle/schema';
 import { useCurrentUser } from '@/hooks/use-current-user';
 import { SettingsSchema } from '@/lib/validations/settings';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { UserRole } from '@prisma/client';
+
 import { signIn, useSession } from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState, useTransition } from 'react';
@@ -197,10 +198,10 @@ const Settings = () => {
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
-                              <SelectItem value={UserRole.ADMIN}>
+                              <SelectItem value={UserRole.enumValues[0]}>
                                 Admin
                               </SelectItem>
-                              <SelectItem value={UserRole.USER}>
+                              <SelectItem value={UserRole.enumValues[1]}>
                                 User
                               </SelectItem>
                             </SelectContent>

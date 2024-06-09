@@ -1,48 +1,51 @@
-// import { PrismaClient } from '@prisma/client';
+//-------------------------------
+// Drizzle via PostgresJS driver
 
-// declare global {
-//   // eslint-disable-next-line no-var
-//   var cachedPrisma: PrismaClient;
-// }
+import { drizzle } from "drizzle-orm/postgres-js";
+import * as schema from "@/drizzle/schema";
 
-// let prisma: PrismaClient;
-// if (process.env.NODE_ENV === 'production') {
-//   prisma = new PrismaClient();
-// } else {
-//   if (!global.cachedPrisma) {
-//     global.cachedPrisma = new PrismaClient();
-//   }
-//   prisma = global.cachedPrisma;
-// }
+import postgres from "postgres";
 
-// export const db = prisma;
-
-// import 'dotenv/config';
-// import { drizzle } from 'drizzle-orm/node-postgres';
-// import * as schema from '@/drizzle/schema';
-
-// import { Client } from 'pg';
-
-// export const client = new Client({
-//   connectionString: process.env.DATABASE_DRIZZLE_URL as string,
-// });
-
-// export const db = drizzle(client, { schema, logger: true });
-
-// import 'dotenv/config';
-import { drizzle } from 'drizzle-orm/postgres-js';
-import * as schema from '@/drizzle/schema';
-
-import postgres from 'postgres';
-
-
-const client = postgres(process.env.DATABASE_DRIZZLE_URL as string);
+const client = postgres(process.env.POSTGRES_URL! as string, {
+  prepare: false,
+  max: 200,
+  idle_timeout: 0,
+  max_lifetime: 60 * 30,
+});
 export const db = drizzle(client, { schema, logger: true });
 
+//--------------------
+//Drizzel via neon driver
+
+// import * as schema from "@/drizzle/schema";
 
 // import { drizzle } from "drizzle-orm/neon-http";
 // import { neon } from "@neondatabase/serverless";
 
+// const sql = neon(process.env.POSTGRES_URL!);
+// export const db = drizzle(sql, { schema, logger: true });
 
-// const sql = neon(process.env.DATABASE_URL!);
-// export const db = drizzle(sql);
+//---------------------
+// Drizzel via neone driver for local connection
+
+// import * as schema from "@/drizzle/schema";
+
+// import { drizzle } from "drizzle-orm/neon-http";
+// import { neon, neonConfig } from "@neondatabase/serverless";
+
+// // if we're running locally
+// if (!process.env.VERCEL_ENV) {
+//   // Set the WebSocket proxy to work with the local instance
+
+//   neonConfig.wsProxy = (host) => `${host}:5433/v1`;
+//   // Disable all authentication and encryption
+//   neonConfig.useSecureWebSocket = false;
+//   neonConfig.pipelineTLS = false;
+//   neonConfig.pipelineConnect = false;
+// }
+
+// if (!process.env.POSTGRES_URL) {
+//   throw new Error("POSTGRES_URL is not set");
+// }
+// const sql = neon(process.env.POSTGRES_URL);
+// export const db = drizzle(sql, { schema, logger: true });

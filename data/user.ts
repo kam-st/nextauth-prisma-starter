@@ -1,6 +1,6 @@
-import { UserTable } from '@/drizzle/schema';
-import { db } from '@/lib/db';
-import { eq } from 'drizzle-orm';
+import { UserTable } from "@/drizzle/schema";
+import { db } from "@/lib/db";
+import { eq } from "drizzle-orm";
 
 export const getUserbyEmail = async (email: string) => {
   try {
@@ -24,7 +24,7 @@ export const getUserById = async (id: string) => {
     // const user = await db.user.findUnique({ where: { id } });
 
     return user[0];
-  } catch {
+  } catch (e) {
     return null;
   }
 };

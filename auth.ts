@@ -1,22 +1,22 @@
-import NextAuth from 'next-auth';
-import { DrizzleAdapter } from '@auth/drizzle-adapter';
-import Google from 'next-auth/providers/google';
-import { PrismaAdapter } from '@auth/prisma-adapter';
-import { db } from './lib/db';
-import Credentials from 'next-auth/providers/credentials';
-import { LoginSchema } from './lib/validations/auth';
-import { getUserbyEmail, getUserById } from './data/user';
-import bcrypt from 'bcryptjs';
-import { UserRole } from '@/drizzle/schema';
-import { getTwoFactorConfirmationByUserId } from './data/two-factor-confirmation';
-import { getAccountByUserId } from './data/account';
+import NextAuth from "next-auth";
+import { DrizzleAdapter } from "@auth/drizzle-adapter";
+import Google from "next-auth/providers/google";
+
+import { db } from "./lib/db";
+import Credentials from "next-auth/providers/credentials";
+import { LoginSchema } from "./lib/validations/auth";
+import { getUserbyEmail, getUserById } from "./data/user";
+import bcrypt from "bcryptjs";
+import { UserRole } from "@/drizzle/schema";
+import { getTwoFactorConfirmationByUserId } from "./data/two-factor-confirmation";
+import { getAccountByUserId } from "./data/account";
 import {
   AccountTable,
   SessionTable,
   TwoFactorConfirmationTable,
   UserTable,
-} from './drizzle/schema';
-import { eq } from 'drizzle-orm';
+} from "./drizzle/schema";
+import { eq } from "drizzle-orm";
 
 export const {
   handlers,
@@ -26,19 +26,19 @@ export const {
   unstable_update: update,
 } = NextAuth({
   pages: {
-    signIn: '/login',
-    error: '/error',
+    signIn: "/login",
+    error: "/error",
   },
   adapter: DrizzleAdapter(db, {
     usersTable: UserTable,
     accountsTable: AccountTable,
     sessionsTable: SessionTable,
   }),
-  session: { strategy: 'jwt' },
+  session: { strategy: "jwt" },
   providers: [
     Google({ allowDangerousEmailAccountLinking: true }),
     Credentials({
-      credentials: { password: { label: 'Password', type: 'password' } },
+      credentials: { password: { label: "Password", type: "password" } },
       async authorize(credentials) {
         const validatedFields = LoginSchema.safeParse(credentials);
 
@@ -60,7 +60,7 @@ export const {
   callbacks: {
     async signIn({ user, account }) {
       // Allow OAuth without email verification
-      if (account?.provider !== 'credentials') return true;
+      if (account?.provider !== "credentials") return true;
 
       if (!user.id) return false;
       const existingUser = await getUserById(user.id);
@@ -81,7 +81,6 @@ export const {
           .delete(TwoFactorConfirmationTable)
           .where(eq(TwoFactorConfirmationTable.id, twoFactorConfirmation.id));
 
-        // Prisma query
         // await db.twoFactorConfirmation.delete({
         //   where: { id: twoFactorConfirmation.id },
         // });
@@ -95,7 +94,7 @@ export const {
       }
 
       if (token.role && session.user) {
-        session.user.role = token.role as typeof UserRole.enumValues;
+        session.user.role = token.role;
       }
 
       if (session.user) {
@@ -108,12 +107,13 @@ export const {
     },
     async jwt({ token }) {
       if (!token.sub) return token;
+
       const existingUser = await getUserById(token.sub);
       if (!existingUser) return token;
 
       const existingAccount = await getAccountByUserId(existingUser.id);
 
-      token.isOAuth = !!existingAccount ;
+      token.isOAuth = !!existingAccount;
 
       token.name = existingUser.name;
       token.email = existingUser.email;

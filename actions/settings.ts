@@ -75,7 +75,7 @@ export const settings = async (values: z.infer<typeof SettingsSchema>) => {
       .set({ ...values })
       .where(eq(UserTable.id, dbUser.id));
   } catch (e) {
-    console.log("setings.ts", e);
+    console.log(e);
   }
 
   // await db.user.update({

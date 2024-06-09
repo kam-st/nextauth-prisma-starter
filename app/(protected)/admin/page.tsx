@@ -5,8 +5,9 @@ import { FormSucess } from '@/components/auth/form-sucess';
 import { RoleGate } from '@/components/auth/role-gate';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { UserRole } from '@/drizzle/schema';
 import { useCurrentRole } from '@/hooks/use-current-role';
-import { UserRole } from '@prisma/client';
+
 import { toast } from 'sonner';
 
 export const AdminPage = () => {
@@ -37,7 +38,7 @@ export const AdminPage = () => {
         <p className='text-2xl font-semibold text-center'>Admin</p>
       </CardHeader>
       <CardContent className='space-y-4'>
-        <RoleGate allowedRole={UserRole.ADMIN}>
+        <RoleGate allowedRole={UserRole.enumValues[0]}>
           <FormSucess message='You are allowed to view this content!' />
         </RoleGate>
         <div className='flex flex-row items-center justify-between rounded-lg border p-3 shadow-md'>
