@@ -1,6 +1,6 @@
-import { VerificationTokenTable } from '@/drizzle/schema';
-import { db } from '@/lib/db';
-import { eq } from 'drizzle-orm';
+import { VerificationTokenTable } from "@/drizzle/schema";
+import { db } from "@/lib/db";
+import { eq } from "drizzle-orm";
 
 export const getVerificationTokenByToken = async (token: string) => {
   try {
@@ -9,9 +9,6 @@ export const getVerificationTokenByToken = async (token: string) => {
       .from(VerificationTokenTable)
       .where(eq(VerificationTokenTable.token, token));
 
-    // const verificationToken = await db.verificationToken.findUnique({
-    //   where: { token },
-    // });
     return verificationToken[0];
   } catch {
     return null;
@@ -26,9 +23,6 @@ export const getVerificationTokenByEmail = async (email: string) => {
       .where(eq(VerificationTokenTable.email, email))
       .limit(1);
 
-    // const verificationToken = await db.verificationToken.findFirst({
-    //   where: { email },
-    // });
     return verificationToken[0];
   } catch {
     return null;

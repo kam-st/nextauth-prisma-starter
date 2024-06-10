@@ -24,26 +24,12 @@ export const generateTwoFactorToken = async (email: string) => {
     await db
       .delete(TwoFactorTokenTable)
       .where(eq(TwoFactorTokenTable.email, exisitingToken.email));
-
-    //   await db.twoFactorToken.deleteMany({
-    //     where: {
-    //       email: exisitingToken.email,
-    //     },
-    //   });
   }
 
   const twoFactorToken = await db
     .insert(TwoFactorTokenTable)
     .values({ email: email, token: token, expires: expires })
     .returning();
-
-  // const twoFactorToken1 = await db.twoFactorToken.create({
-  //   data: {
-  //     email,
-  //     token,
-  //     expires,
-  //   },
-  // });
 
   return twoFactorToken[0];
 };
@@ -58,26 +44,12 @@ export const generatePasswordResetToken = async (email: string) => {
     await db
       .delete(PasswordResetTokenTable)
       .where(eq(PasswordResetTokenTable.email, exisitingToken.email));
-
-    // await db.passwordResetToken.deleteMany({
-    //   where: {
-    //     email: exisitingToken.email,
-    //   },
-    // });
   }
 
   const PasswordResetToken = await db
     .insert(PasswordResetTokenTable)
     .values({ email: email, token: token, expires: expires })
     .returning();
-
-  // const PasswordResetToken = await db.passwordResetToken.create({
-  //   data: {
-  //     email,
-  //     token,
-  //     expires,
-  //   },
-  // });
 
   return PasswordResetToken[0];
 };
@@ -92,26 +64,12 @@ export const generateVerificationToken = async (email: string) => {
     await db
       .delete(VerificationTokenTable)
       .where(eq(VerificationTokenTable.email, exisitingToken.email));
-
-    // await db.verificationToken.deleteMany({
-    //   where: {
-    //     email: exisitingToken.email,
-    //   },
-    // });
   }
 
   const verificationToken = await db
     .insert(VerificationTokenTable)
     .values({ email: email, token: token, expires: expires })
     .returning();
-
-  // const verificationToken = await db.verificationToken.create({
-  //   data: {
-  //     email,
-  //     token,
-  //     expires,
-  //   },
-  // });
 
   return verificationToken[0];
 };

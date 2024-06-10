@@ -78,12 +78,5 @@ export const settings = async (values: z.infer<typeof SettingsSchema>) => {
     console.log(e);
   }
 
-  // await db.user.update({
-  //   where: { id: dbUser.id },
-  //   data: {
-  //     ...values,
-  //   },
-  // });
-
   return { success: "Settings Updated!" };
 };

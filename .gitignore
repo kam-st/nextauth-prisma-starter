@@ -37,6 +37,5 @@ yarn-error.log*
 next-env.d.ts
 
 docker containers
-/neon-postgres
-/postgres
+
 /docker

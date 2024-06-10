@@ -9,8 +9,6 @@ export const getUserbyEmail = async (email: string) => {
       .from(UserTable)
       .where(eq(UserTable.email, email));
 
-    // const user = await db.user.findUnique({ where: { email } });
-
     return user[0];
   } catch {
     return null;
@@ -20,8 +18,6 @@ export const getUserbyEmail = async (email: string) => {
 export const getUserById = async (id: string) => {
   try {
     const user = await db.select().from(UserTable).where(eq(UserTable.id, id));
-
-    // const user = await db.user.findUnique({ where: { id } });
 
     return user[0];
   } catch (e) {
