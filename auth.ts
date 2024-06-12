@@ -1,15 +1,15 @@
-import NextAuth from 'next-auth';
+import NextAuth from "next-auth";
 
-import Google from 'next-auth/providers/google';
-import { PrismaAdapter } from '@auth/prisma-adapter';
-import { db } from './lib/db';
-import Credentials from 'next-auth/providers/credentials';
-import { LoginSchema } from './lib/validations/auth';
-import { getUserbyEmail, getUserById } from './data/user';
-import bcrypt from 'bcryptjs';
-import { UserRole } from '@prisma/client';
-import { getTwoFactorConfirmationByUserId } from './data/two-factor-confirmation';
-import { getAccountByUserId } from './data/account';
+import Google from "next-auth/providers/google";
+import { PrismaAdapter } from "@auth/prisma-adapter";
+import Credentials from "next-auth/providers/credentials";
+import bcrypt from "bcryptjs";
+import { UserRole } from "@prisma/client";
+import { db } from "./lib/db";
+import { LoginSchema } from "./lib/validations/auth";
+import { getUserbyEmail, getUserById } from "./data/user";
+import { getTwoFactorConfirmationByUserId } from "./data/two-factor-confirmation";
+import { getAccountByUserId } from "./data/account";
 
 export const {
   handlers,
@@ -19,15 +19,15 @@ export const {
   unstable_update: update,
 } = NextAuth({
   pages: {
-    signIn: '/login',
-    error: '/error',
+    signIn: "/login",
+    error: "/error",
   },
   adapter: PrismaAdapter(db),
-  session: { strategy: 'jwt' },
+  session: { strategy: "jwt" },
   providers: [
     Google({ allowDangerousEmailAccountLinking: true }),
     Credentials({
-      credentials: { password: { label: 'Password', type: 'password' } },
+      credentials: { password: { label: "Password", type: "password" } },
       async authorize(credentials) {
         const validatedFields = LoginSchema.safeParse(credentials);
 
@@ -49,7 +49,7 @@ export const {
   callbacks: {
     async signIn({ user, account }) {
       // Allow OAuth without email verification
-      if (account?.provider !== 'credentials') return true;
+      if (account?.provider !== "credentials") return true;
 
       if (!user.id) return false;
       const existingUser = await getUserById(user.id);
