@@ -1,12 +1,16 @@
-'use client';
+"use client";
 
-import * as z from 'zod';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { useState, useTransition } from "react";
+import * as z from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { useSearchParams } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
+import { NewPasswordSchema } from "@/lib/validations/auth";
+import { newPasswordAction } from "@/actions/new-password-action";
 import {
   Form,
   FormControl,
@@ -14,35 +18,30 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '../ui/form';
-import { NewPasswordSchema } from '@/lib/validations/auth';
-import { FormError } from './form-error';
-import { FormSucess } from './form-sucess';
-
-import { useState, useTransition } from 'react';
-import { useSearchParams } from 'next/navigation';
-import { newPasswordAction } from '@/actions/new-password-action';
+} from "../ui/form";
+import { FormError } from "./form-error";
+import { FormSucess } from "./form-sucess";
 
 const NewPaswordForm = () => {
   const searchParams = useSearchParams();
-  const token = searchParams.get('token');
-  const email = searchParams.get('email');
+  const token = searchParams.get("token");
+  const email = searchParams.get("email");
 
-  const [error, setError] = useState<string | undefined>('');
-  const [success, setSucess] = useState<string | undefined>('');
+  const [error, setError] = useState<string | undefined>("");
+  const [success, setSucess] = useState<string | undefined>("");
   const [isPending, startTransition] = useTransition();
 
   const form = useForm<z.infer<typeof NewPasswordSchema>>({
     resolver: zodResolver(NewPasswordSchema),
     defaultValues: {
-      password: '',
-      confirmPassword: '',
+      password: "",
+      confirmPassword: "",
     },
   });
 
   const onSubmit = (values: z.infer<typeof NewPasswordSchema>) => {
-    setError('');
-    setSucess('');
+    setError("");
+    setSucess("");
     startTransition(() => {
       newPasswordAction(values, email, token).then((data) => {
         setError(data?.error);
@@ -54,19 +53,19 @@ const NewPaswordForm = () => {
   return (
     <>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
-          <div className='grid gap-4'>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <div className="grid gap-4">
             <FormField
               control={form.control}
-              name='password'
+              name="password"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
                     <Input
                       disabled={isPending}
-                      type='password'
-                      placeholder='******'
+                      type="password"
+                      placeholder="******"
                       required
                       {...field}
                     />
@@ -77,15 +76,15 @@ const NewPaswordForm = () => {
             />
             <FormField
               control={form.control}
-              name='confirmPassword'
+              name="confirmPassword"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Confirm Password</FormLabel>
                   <FormControl>
                     <Input
                       disabled={isPending}
-                      type='password'
-                      placeholder='******'
+                      type="password"
+                      placeholder="******"
                       required
                       {...field}
                     />
@@ -97,8 +96,8 @@ const NewPaswordForm = () => {
           </div>
           <FormError message={error} />
           <FormSucess message={success} />
-          <Button disabled={isPending} type='submit' className='w-full'>
-            Reset Password{isPending ? '...' : ''}
+          <Button disabled={isPending} type="submit" className="w-full">
+            Reset Password{isPending ? "..." : ""}
           </Button>
         </form>
       </Form>

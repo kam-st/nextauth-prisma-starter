@@ -1,17 +1,18 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
+import { useState, useTransition } from "react";
+import Link from "next/link";
 
-import { Button } from '@/components/ui/button';
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { Button } from "@/components/ui/button";
 
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { DividerWithText } from '../misc/dividerWithText';
-import { useState, useTransition } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import { RegisterSchema } from '@/lib/validations/auth';
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { RegisterSchema } from "@/lib/validations/auth";
+import { registerAction } from "@/actions/register-action";
+import { DividerWithText } from "../misc/dividerWithText";
 
 import {
   Form,
@@ -20,27 +21,26 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '../ui/form';
-import { FormError } from './form-error';
-import { FormSucess } from './form-sucess';
-import { registerAction } from '@/actions/registerAction';
+} from "../ui/form";
+import { FormError } from "./form-error";
+import { FormSucess } from "./form-sucess";
 
 export function RegisterForm() {
-  const [error, setError] = useState<string | undefined>('');
-  const [sucess, setSucess] = useState<string | undefined>('');
+  const [error, setError] = useState<string | undefined>("");
+  const [sucess, setSucess] = useState<string | undefined>("");
   const [isPending, startTransition] = useTransition();
 
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
     },
   });
 
   const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
-    setError('');
-    setSucess('');
+    setError("");
+    setSucess("");
     startTransition(() => {
       registerAction(values).then((data) => {
         setError(data?.error);
@@ -52,20 +52,20 @@ export function RegisterForm() {
   return (
     <>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
-          <div className='grid gap-4'>
-            <div className='grid grid-cols-2 gap-4'>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <div className="grid gap-4">
+            <div className="grid grid-cols-2 gap-4">
               <FormField
                 control={form.control}
-                name='name'
+                name="name"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>First name</FormLabel>
                     <FormControl>
                       <Input
                         disabled={isPending}
-                        type='name'
-                        placeholder='John'
+                        type="name"
+                        placeholder="John"
                         required
                         {...field}
                       />
@@ -76,15 +76,15 @@ export function RegisterForm() {
               />
               <FormField
                 control={form.control}
-                name='lastName'
+                name="lastName"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Last name</FormLabel>
                     <FormControl>
                       <Input
                         disabled={isPending}
-                        type='lastName'
-                        placeholder='Doe'
+                        type="lastName"
+                        placeholder="Doe"
                         required
                         {...field}
                       />
@@ -96,15 +96,15 @@ export function RegisterForm() {
             </div>
             <FormField
               control={form.control}
-              name='email'
+              name="email"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
                     <Input
                       disabled={isPending}
-                      type='email'
-                      placeholder='john.doe@example.com'
+                      type="email"
+                      placeholder="john.doe@example.com"
                       required
                       {...field}
                     />
@@ -115,15 +115,15 @@ export function RegisterForm() {
             />
             <FormField
               control={form.control}
-              name='password'
+              name="password"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
                     <Input
                       disabled={isPending}
-                      type='password'
-                      placeholder='******'
+                      type="password"
+                      placeholder="******"
                       required
                       {...field}
                     />
@@ -134,15 +134,15 @@ export function RegisterForm() {
             />
             <FormField
               control={form.control}
-              name='confirmPassword'
+              name="confirmPassword"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Confirm Password</FormLabel>
                   <FormControl>
                     <Input
                       disabled={isPending}
-                      type='password'
-                      placeholder='******'
+                      type="password"
+                      placeholder="******"
                       required
                       {...field}
                     />
@@ -154,8 +154,8 @@ export function RegisterForm() {
           </div>
           <FormError message={error} />
           <FormSucess message={sucess} />
-          <Button disabled={isPending} type='submit' className='w-full'>
-            Sign Up{isPending ? '...' : ''}
+          <Button disabled={isPending} type="submit" className="w-full">
+            Sign Up{isPending ? "..." : ""}
           </Button>
         </form>
       </Form>

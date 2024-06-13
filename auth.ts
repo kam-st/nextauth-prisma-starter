@@ -78,7 +78,7 @@ export const {
       }
 
       if (token.role && session.user) {
-        session.user.role = token.role as UserRole;
+        session.user.role = token.role as string;
       }
 
       if (session.user) {

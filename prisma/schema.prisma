@@ -13,9 +13,38 @@ datasource db {
   url      = env("POSTGRES_URL")
 }
 
-enum UserRole {
-  ADMIN
-  USER
+// enum UserRole {
+//   ADMIN
+//   USER
+// }
+
+model UserRole {
+  UserRole   String      @unique
+  User       User[]
+  AccessUrls AccessUrl[]
+  AccessApi  AccessApi[]
+}
+
+model AccessUrl {
+  id       String   @id @default(cuid())
+  url      String
+  UserRole UserRole @relation(fields: [role], references: [UserRole])
+  role     String
+  create   Boolean  @default(false)
+  read     Boolean  @default(false)
+  update   Boolean  @default(false)
+  delete   Boolean  @default(false)
+}
+
+model AccessApi {
+  id       String   @id @default(cuid())
+  api      String
+  UserRole UserRole @relation(fields: [role], references: [UserRole])
+  role     String
+  create   Boolean  @default(false)
+  read     Boolean  @default(false)
+  update   Boolean  @default(false)
+  delete   Boolean  @default(false)
 }
 
 model User {
@@ -26,11 +55,12 @@ model User {
   emailVerified         DateTime?
   image                 String?
   password              String?
-  role                  UserRole               @default(USER)
+  userRole              UserRole               @relation(fields: [role], references: [UserRole])
   accounts              Account[]
   sessions              Session[]
   isTwoFactorEnabled    Boolean                @default(false)
   twoFactorConfirmation TwoFactorConfirmation?
+  role                  String                 @default("USER")
 }
 
 model Account {

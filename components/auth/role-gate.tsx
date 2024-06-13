@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import { useCurrentRole } from '@/hooks/use-current-role';
-import { UserRole } from '@prisma/client';
-import { FormError } from './form-error';
+import { UserRole } from "@prisma/client";
+import { useCurrentRole } from "@/hooks/use-current-role";
+import { FormError } from "./form-error";
 
 type RoleGateProps = {
   children: React.ReactNode;
-  allowedRole: UserRole;
+  allowedRole: string;
 };
 
 export const RoleGate = ({ children, allowedRole }: RoleGateProps) => {
@@ -14,7 +14,7 @@ export const RoleGate = ({ children, allowedRole }: RoleGateProps) => {
 
   if (role !== allowedRole) {
     return (
-      <FormError message='You do not have permisions to view this content' />
+      <FormError message="You do not have permisions to view this content" />
     );
   }
 

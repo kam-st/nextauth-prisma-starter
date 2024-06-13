@@ -1,26 +1,26 @@
-'use server';
+"use server";
 
-import bcrypt from 'bcryptjs';
+import { error } from "console";
+import bcrypt from "bcryptjs";
 
-import { getUserById, getUserbyEmail } from '@/data/user';
-import { currentUser } from '@/lib/auth';
-import { db } from '@/lib/db';
-import { sendVerificationEmail } from '@/lib/mail';
-import { generateVerificationToken } from '@/lib/tokens';
-import { SettingsSchema } from '@/lib/validations/settings';
-import { z } from 'zod';
-import { error } from 'console';
+import { z } from "zod";
+import { getUserById, getUserbyEmail } from "@/data/user";
+import { currentUser } from "@/lib/auth";
+import { db } from "@/lib/db";
+import { sendVerificationEmail } from "@/lib/mail";
+import { generateVerificationToken } from "@/lib/tokens";
+import { SettingsSchema } from "@/lib/validations/settings";
 
 export const settings = async (values: z.infer<typeof SettingsSchema>) => {
   const user = await currentUser();
 
   if (!user?.id) {
-    return { error: 'Unauthroized' };
+    return { error: "Unauthroized" };
   }
   const dbUser = await getUserById(user.id);
 
   if (!dbUser) {
-    return { error: 'Unauthorized' };
+    return { error: "Unauthorized" };
   }
   {
     /* TODO: Update this logic to work for both Oauth and credentials. If do not have password then, disable email change.  */
@@ -38,7 +38,7 @@ export const settings = async (values: z.infer<typeof SettingsSchema>) => {
     const existingUser = await getUserbyEmail(values.email);
 
     if (existingUser && existingUser.id !== user.id) {
-      return { error: 'Email already in use!' };
+      return { error: "Email already in use!" };
     }
 
     const verificationToken = await generateVerificationToken(values.email);
@@ -48,7 +48,7 @@ export const settings = async (values: z.infer<typeof SettingsSchema>) => {
       verificationToken.token
     );
 
-    return { success: 'Verification email Sent!' };
+    return { success: "Verification email Sent!" };
   }
 
   if (values.password && values.newPassword && dbUser.password) {
@@ -58,7 +58,7 @@ export const settings = async (values: z.infer<typeof SettingsSchema>) => {
     );
 
     if (!passwordMatch) {
-      return { error: 'Incorrect password!' };
+      return { error: "Incorrect password!" };
     }
 
     const hashedPassword = await bcrypt.hash(values.newPassword, 10);
@@ -75,5 +75,5 @@ export const settings = async (values: z.infer<typeof SettingsSchema>) => {
     },
   });
 
-  return { success: 'Settings Updated!' };
+  return { success: "Settings Updated!" };
 };

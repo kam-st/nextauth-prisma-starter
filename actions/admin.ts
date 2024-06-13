@@ -6,8 +6,9 @@ import { currentRole } from "@/lib/auth";
 
 export const admin = async () => {
   const role = await currentRole();
+  //TODO: Update this code to work with role policies defined in database. Based on role and access policies of that role.
 
-  if (role === UserRole.ADMIN) {
+  if (role === "ADMIN") {
     return { success: "Allowed!" };
   }
 

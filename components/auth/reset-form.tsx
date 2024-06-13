@@ -1,12 +1,15 @@
-'use client';
+"use client";
 
-import * as z from 'zod';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { useState, useTransition } from "react";
+import * as z from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
+import { ResetSchema } from "@/lib/validations/auth";
+import { resetPasswordAction } from "@/actions/reset-password-action";
 import {
   Form,
   FormControl,
@@ -14,29 +17,25 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '../ui/form';
-import { ResetSchema } from '@/lib/validations/auth';
-import { FormError } from './form-error';
-import { FormSucess } from './form-sucess';
-
-import { useState, useTransition } from 'react';
-import { resetPasswordAction } from '@/actions/reset-password-action';
+} from "../ui/form";
+import { FormError } from "./form-error";
+import { FormSucess } from "./form-sucess";
 
 export function ResetForm() {
-  const [error, setError] = useState<string | undefined>('');
-  const [success, setSucess] = useState<string | undefined>('');
+  const [error, setError] = useState<string | undefined>("");
+  const [success, setSucess] = useState<string | undefined>("");
   const [isPending, startTransition] = useTransition();
 
   const form = useForm<z.infer<typeof ResetSchema>>({
     resolver: zodResolver(ResetSchema),
     defaultValues: {
-      email: '',
+      email: "",
     },
   });
 
   const onSubmit = (values: z.infer<typeof ResetSchema>) => {
-    setError('');
-    setSucess('');
+    setError("");
+    setSucess("");
     startTransition(() => {
       resetPasswordAction(values).then((data) => {
         setError(data?.error);
@@ -48,19 +47,19 @@ export function ResetForm() {
   return (
     <>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
-          <div className='grid gap-4'>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <div className="grid gap-4">
             <FormField
               control={form.control}
-              name='email'
+              name="email"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
                     <Input
                       disabled={isPending}
-                      type='email'
-                      placeholder='john.doe@example.com'
+                      type="email"
+                      placeholder="john.doe@example.com"
                       required
                       {...field}
                     />
@@ -72,8 +71,8 @@ export function ResetForm() {
           </div>
           <FormError message={error} />
           <FormSucess message={success} />
-          <Button disabled={isPending} type='submit' className='w-full'>
-            Send reset email {isPending ? '...' : ''}
+          <Button disabled={isPending} type="submit" className="w-full">
+            Send reset email {isPending ? "..." : ""}
           </Button>
         </form>
       </Form>

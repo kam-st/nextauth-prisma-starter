@@ -1,4 +1,4 @@
-import Navbar from './_components/navbar';
+import Navbar from "./_components/navbar";
 
 type ProtectedLayoutProps = {
   children: React.ReactNode;
@@ -6,7 +6,7 @@ type ProtectedLayoutProps = {
 
 const ProtectedLayout = ({ children }: ProtectedLayoutProps) => {
   return (
-    <div className='container min-h-screen flex flex-col space-y-6 items-center '>
+    <div className="container min-h-screen flex flex-col space-y-6 items-center ">
       <Navbar />
       {children}
     </div>
