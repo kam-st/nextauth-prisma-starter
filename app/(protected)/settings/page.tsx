@@ -33,12 +33,19 @@ import {
 import { Switch } from "@/components/ui/switch";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { SettingsSchema } from "@/lib/validations/settings";
-import { getUserRoles } from "@/actions/user-role";
+import { getUserRoles } from "@/data/user-role";
+import { getAccessUrlByRole } from "@/data/access-url-role";
+import useRoleAccess from "@/hooks/use-role-access";
 
 const Settings = () => {
   const user = useCurrentUser();
 
   const { update } = useSession();
+
+  const { data: RoleAccessData } = useQuery({
+    queryKey: ["role-access-data"],
+    queryFn: () => getAccessUrlByRole(user?.role),
+  });
 
   const { data: UserRoleData } = useQuery({
     queryKey: ["user-roles"],
@@ -204,7 +211,7 @@ const Settings = () => {
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
-                              {UserRoleData?.userRoles?.map((userRole) => (
+                              {UserRoleData?.map((userRole) => (
                                 <SelectItem
                                   key={userRole.UserRole}
                                   value={userRole.UserRole}

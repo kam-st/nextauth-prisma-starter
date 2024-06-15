@@ -1,11 +1,13 @@
-import { auth } from '@/auth';
+import { NextResponse } from "next/server";
+import { auth } from "@/auth";
 
 import {
   DEFAULT_LOGIN_REDIRECT,
   apiAuthPrefix,
   authRoutes,
   publicRoutes,
-} from '@/routes';
+} from "@/routes";
+import doesRoleHaveAccessToURL from "./actions/does-role-have-access-to-url";
 
 export default auth((req) => {
   const { nextUrl } = req;
@@ -16,6 +18,10 @@ export default auth((req) => {
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
 
   if (isAPIAuthRoute) {
+    return;
+  }
+
+  if (isPublicRoute) {
     return;
   }
 
@@ -36,9 +42,17 @@ export default auth((req) => {
       new URL(`/login?callbackUrl=${encodedCallbackURL}`, nextUrl)
     );
   }
+  const role = req.auth?.user.role;
+
+  let haveAccess = doesRoleHaveAccessToURL(role, req.nextUrl.pathname);
+
+  if (!haveAccess) {
+    // Redirect to login page if user has no access to that particular page
+    return NextResponse.rewrite(new URL("/403", req.url));
+  }
   return;
 });
 
 export const config = {
-  matcher: ['/((?!.*\\..*|_next).*)', '/', '/(api|trpc)(.*)'],
+  matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)"],
 };

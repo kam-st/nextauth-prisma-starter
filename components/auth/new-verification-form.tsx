@@ -1,26 +1,26 @@
-'use client';
+"use client";
 
-import { newVerification } from '@/actions/newVerificationAction';
-import { useSearchParams } from 'next/navigation';
-import { useCallback, useEffect, useState } from 'react';
-import { BeatLoader } from 'react-spinners';
-import { FormSucess } from './form-sucess';
-import { FormError } from './form-error';
-import { Button } from '../ui/button';
-import Link from 'next/link';
+import { useCallback, useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { BeatLoader } from "react-spinners";
+import Link from "next/link";
+import { newVerification } from "@/actions/new-verification-action";
+import { FormSucess } from "./form-sucess";
+import { FormError } from "./form-error";
+import { Button } from "../ui/button";
 
 export const NewVerificationForm = () => {
-  const [error, setError] = useState<string | undefined>('');
-  const [success, setSucess] = useState<string | undefined>('');
+  const [error, setError] = useState<string | undefined>("");
+  const [success, setSucess] = useState<string | undefined>("");
 
   const searchParams = useSearchParams();
 
-  const token = searchParams.get('token');
+  const token = searchParams.get("token");
 
   const onSubmit = useCallback(() => {
     if (success || error) return;
     if (!token) {
-      setError('Missing token!');
+      setError("Missing token!");
       return;
     }
 
@@ -30,7 +30,7 @@ export const NewVerificationForm = () => {
         setError(data.error);
       })
       .catch(() => {
-        setError('Something went wrong!');
+        setError("Something went wrong!");
       });
   }, [token, success, error]);
 
@@ -38,13 +38,13 @@ export const NewVerificationForm = () => {
     onSubmit();
   }, [onSubmit]);
   return (
-    <div className='flex flex-col gap-2'>
+    <div className="flex flex-col gap-2">
       {!success && !error && <BeatLoader />}
       <FormSucess message={success} />
       {!success && <FormError message={error} />}
 
-      <Button variant='ghost'>
-        <Link href='/login'> Back to login </Link>
+      <Button variant="ghost">
+        <Link href="/login"> Back to login </Link>
       </Button>
     </div>
   );

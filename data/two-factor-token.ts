@@ -1,4 +1,4 @@
-import { db } from '@/lib/db';
+import { db } from "@/lib/db";
 
 export const getTwoFactorTokenByTokenEmail = async (
   token: string,
@@ -13,6 +13,7 @@ export const getTwoFactorTokenByTokenEmail = async (
         },
       },
     });
+    return twoFactorToken;
   } catch {
     return null;
   }
