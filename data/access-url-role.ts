@@ -1,5 +1,3 @@
-// import { db } from "@/lib/db";
-
 import accessUrlJSON from "@/data/access-url-data.json";
 
 export const getAccessUrlByRole = (role?: string) => {

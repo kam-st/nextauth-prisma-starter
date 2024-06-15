@@ -1,12 +1,14 @@
 "use server";
 
-import userRolesJson from "@/data/roles-data.json";
+import { db } from "@/lib/db";
 
-export const getUserRoles = () => {
+// import userRolesJson from "@/data/roles-data.json";
+
+export const getUserRoles = async () => {
   try {
-    // const userRoles = await db.userRole.findMany();
+    const userRoles = await db.userRole.findMany();
 
-    return userRolesJson;
+    return userRoles;
   } catch {
     return null;
   }

@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { useSearchParams } from "next/navigation";
+import { REGEXP_ONLY_DIGITS_AND_CHARS } from "input-otp";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -22,6 +23,7 @@ import {
 } from "../ui/form";
 import { FormError } from "./form-error";
 import { FormSucess } from "./form-sucess";
+import { InputOTP, InputOTPGroup, InputOTPSlot } from "../ui/input-otp";
 
 export function LoginForm() {
   const searchParams = useSearchParams();
@@ -80,14 +82,33 @@ export function LoginForm() {
                   name="code"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Two Factor Code</FormLabel>
+                      <FormLabel className="w-full flex justify-center">
+                        Two Factor Code
+                      </FormLabel>
                       <FormControl>
-                        <Input
+                        {/* <Input
                           disabled={isPending}
                           placeholder="123456"
                           required
                           {...field}
-                        />
+                        /> */}
+                        <InputOTP
+                          maxLength={6}
+                          pattern={REGEXP_ONLY_DIGITS_AND_CHARS}
+                          disabled={isPending}
+                          // placeholder="123456"
+                          required
+                          {...field}
+                        >
+                          <InputOTPGroup className="w-full flex justify-center">
+                            <InputOTPSlot index={0} />
+                            <InputOTPSlot index={1} />
+                            <InputOTPSlot index={2} />
+                            <InputOTPSlot index={3} />
+                            <InputOTPSlot index={4} />
+                            <InputOTPSlot index={5} />
+                          </InputOTPGroup>
+                        </InputOTP>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
