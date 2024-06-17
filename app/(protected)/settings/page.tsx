@@ -35,7 +35,6 @@ import { useCurrentUser } from "@/hooks/use-current-user";
 import { SettingsSchema } from "@/lib/validations/settings";
 import { getUserRoles } from "@/data/user-role";
 import { getAccessUrlByRole } from "@/data/access-url-role";
-import useRoleAccess from "@/hooks/use-role-access";
 
 const Settings = () => {
   const user = useCurrentUser();
@@ -87,7 +86,7 @@ const Settings = () => {
   return (
     <>
       {user && (
-        <Card className="w-[600px]">
+        <Card className="w-[600px]  ">
           <CardHeader>
             <p className="text-2xl font-semibold text-center">Settings</p>
           </CardHeader>
@@ -117,26 +116,27 @@ const Settings = () => {
                   />
 
                   {/* TODO: Update this logic to work for both Oauth and credentials. If do not have password then, disable email change.  */}
+
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Email</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="email"
+                            {...field}
+                            placeholder="john.doe@example.com"
+                            disabled={isPending || user?.isOAuth}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                   {user?.isOAuth === false && (
                     <>
-                      <FormField
-                        control={form.control}
-                        name="email"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Email</FormLabel>
-                            <FormControl>
-                              <Input
-                                type="email"
-                                {...field}
-                                placeholder="john.doe@example.com"
-                                disabled={isPending}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
                       <FormField
                         control={form.control}
                         name="password"
@@ -219,12 +219,6 @@ const Settings = () => {
                                   {userRole.UserRole}
                                 </SelectItem>
                               ))}
-                              {/* <SelectItem value={UserRole.ADMIN}>
-                                Admin
-                              </SelectItem>
-                              <SelectItem value={UserRole.USER}>
-                                User
-                              </SelectItem> */}
                             </SelectContent>
                           </Select>
                         </FormControl>

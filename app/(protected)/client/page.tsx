@@ -1,8 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
-import { signIn, useSession } from "next-auth/react";
-import { usePathname, useRouter } from "next/navigation";
+import React from "react";
 import { UserInfo } from "@/components/user-info";
 import { useCurrentUser } from "@/hooks/use-current-user";
 

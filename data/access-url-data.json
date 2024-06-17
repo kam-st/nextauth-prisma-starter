@@ -1,1 +1,137 @@
-[{"id":"clxdua2l90000e2davbsof6r4","url":"/","role":"ADMIN","create":true,"read":true,"update":true,"delete":true},{"id":"clxeyitbj0000glodj5teu5be","url":"/admin","role":"ADMIN","create":false,"read":true,"update":false,"delete":false},{"id":"clxdua2la0002e2da4l42gn0d","url":"/settings","role":"ADMIN","create":true,"read":true,"update":true,"delete":true},{"id":"clxfjwbh60000cs3dedxpft9r","url":"/client","role":"USER","create":true,"read":true,"update":false,"delete":false},{"id":"clxfk69260002cs3dbm8hvjar","url":"/settings","role":"USER","create":true,"read":true,"update":false,"delete":false},{"id":"clxdua2la0001e2dah08cnl4h","url":"/admin","role":"USER","create":false,"read":true,"update":false,"delete":false},{"id":"clxe92y46000011tli4p080ax","url":"/api/roles-access","role":"ADMIN","create":true,"read":true,"update":false,"delete":false},{"id":"clxfmvdj50003cs3dhmgbb8uh","url":"/","role":"USER","create":false,"read":false,"update":false,"delete":false},{"id":"clxfmwig00004cs3d2gdxt0e7","url":"/client","role":"ADMIN","create":false,"read":false,"update":false,"delete":false},{"id":"clxfmx1a20005cs3dijt55j5k","url":"/server","role":"ADMIN","create":false,"read":false,"update":false,"delete":false},{"id":"clxfmx1a20006cs3dfxrbhp0d","url":"/server","role":"USER","create":false,"read":false,"update":false,"delete":false},{"id":"clxfk4vkq0001cs3d2v4894w5","url":"/api/admin","role":"ADMIN","create":true,"read":true,"update":false,"delete":false}]
+[
+    {
+        "id": "clxdua2l90000e2davbsof6r4",
+        "url": "/",
+        "role": "ADMIN",
+        "create": true,
+        "read": true,
+        "update": true,
+        "delete": true
+    },
+    {
+        "id": "clxeyitbj0000glodj5teu5be",
+        "url": "/admin",
+        "role": "ADMIN",
+        "create": false,
+        "read": true,
+        "update": false,
+        "delete": false
+    },
+    {
+        "id": "clxdua2la0002e2da4l42gn0d",
+        "url": "/settings",
+        "role": "ADMIN",
+        "create": true,
+        "read": true,
+        "update": true,
+        "delete": true
+    },
+    {
+        "id": "clxfjwbh60000cs3dedxpft9r",
+        "url": "/client",
+        "role": "USER",
+        "create": true,
+        "read": true,
+        "update": false,
+        "delete": false
+    },
+    {
+        "id": "clxfk69260002cs3dbm8hvjar",
+        "url": "/settings",
+        "role": "USER",
+        "create": true,
+        "read": true,
+        "update": false,
+        "delete": false
+    },
+    {
+        "id": "clxdua2la0001e2dah08cnl4h",
+        "url": "/admin",
+        "role": "USER",
+        "create": false,
+        "read": true,
+        "update": false,
+        "delete": false
+    },
+    {
+        "id": "clxe92y46000011tli4p080ax",
+        "url": "/api/roles-access",
+        "role": "ADMIN",
+        "create": true,
+        "read": true,
+        "update": false,
+        "delete": false
+    },
+    {
+        "id": "clxfmvdj50003cs3dhmgbb8uh",
+        "url": "/",
+        "role": "USER",
+        "create": false,
+        "read": false,
+        "update": false,
+        "delete": false
+    },
+    {
+        "id": "clxfmwig00004cs3d2gdxt0e7",
+        "url": "/client",
+        "role": "ADMIN",
+        "create": false,
+        "read": false,
+        "update": false,
+        "delete": false
+    },
+    {
+        "id": "clxfmx1a20005cs3dijt55j5k",
+        "url": "/server",
+        "role": "ADMIN",
+        "create": false,
+        "read": false,
+        "update": false,
+        "delete": false
+    },
+    {
+        "id": "clxfmx1a20006cs3dfxrbhp0d",
+        "url": "/server",
+        "role": "USER",
+        "create": false,
+        "read": false,
+        "update": false,
+        "delete": false
+    },
+    {
+        "id": "clxfk4vkq0001cs3d2v4894w5",
+        "url": "/api/admin",
+        "role": "ADMIN",
+        "create": true,
+        "read": true,
+        "update": false,
+        "delete": false
+    },
+    {
+        "id": "clxge5xb70000flfw77e85y9s",
+        "url": "/dashboard",
+        "role": "ADMIN",
+        "create": false,
+        "read": false,
+        "update": false,
+        "delete": false
+    },
+    {
+        "id": "clxge5xb70001flfwjsx8l7t2",
+        "url": "/dashboard",
+        "role": "USER",
+        "create": false,
+        "read": false,
+        "update": false,
+        "delete": false
+    },
+    {
+        "id": "clxh0p3o80000nh8krvdogsad",
+        "url": "/users",
+        "role": "ADMIN",
+        "create": true,
+        "read": true,
+        "update": true,
+        "delete": true
+    }
+]
