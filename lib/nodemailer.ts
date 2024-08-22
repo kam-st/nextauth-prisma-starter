@@ -3,7 +3,7 @@ import nodemailer from "nodemailer";
 import { MailerType } from "@/types";
 
 const noReplyTransporter = nodemailer.createTransport({
-  host: process.env.EMAIL_HOST as string,
+  host: process.env.EMAIL_SERVER_HOST as string,
   port: 465,
   secure: true,
   auth: {

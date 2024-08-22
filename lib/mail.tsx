@@ -6,7 +6,7 @@ import ConfirmEmail from "@/emails/confirm-email";
 import ResetPassEmail from "@/emails/reset-pass-email";
 import { noReplyMailer } from "./nodemailer";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+// const resend = new Resend(process.env.RESEND_API_KEY);
 
 const domain = process.env.NEXT_PUBLIC_APP_URL;
 
